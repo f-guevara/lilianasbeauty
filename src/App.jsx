@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
+import Services from './components/Services/Services';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -33,10 +34,11 @@ React.useEffect(() => {
 }, []);
   
   return (
-    <>
+    <div>
     <Navbar theme={theme} setTheme={setTheme}/>
     <Hero theme={theme}/>
-    </>
+    <Services theme={theme} />
+    </div>
   )
 }
 
