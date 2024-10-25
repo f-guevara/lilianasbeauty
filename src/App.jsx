@@ -22,7 +22,7 @@ useEffect(() => {
   return (
     <>
     <Navbar theme={theme} setTheme={setTheme}/>
-    <Hero />
+    <Hero theme={theme}/>
     </>
   )
 }
