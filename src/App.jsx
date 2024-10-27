@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import Services from './components/Services/Services';
+import Reservations from './components/Reservations/Reservations';
 import AOS from 'aos';
+import About from './components/About';
+import Testimonial from './components/Testimonial/Testimonial';
 import 'aos/dist/aos.css';
 
 const App = () => {
@@ -37,7 +40,10 @@ React.useEffect(() => {
     <div>
     <Navbar theme={theme} setTheme={setTheme}/>
     <Hero theme={theme}/>
+    <About theme={theme}/>
     <Services theme={theme} />
+    <Reservations theme={theme} />
+    <Testimonial theme={theme} />
     </div>
   )
 }
