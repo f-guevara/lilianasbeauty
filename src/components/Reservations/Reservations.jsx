@@ -26,6 +26,8 @@ const serviceList = [
 
 const Reservations = () => {
   return (
+    <>
+    <span id="reservations"></span>
     <div className="pb-24 dark:bg-dark dark:text-white">
       <div className="container">
         {/* Heading */}
@@ -66,6 +68,7 @@ const Reservations = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

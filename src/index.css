@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* In your global CSS file */
+html {
+    scroll-behavior: smooth;
+  }
+  

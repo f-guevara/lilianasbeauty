@@ -6,6 +6,9 @@ import Reservations from './components/Reservations/Reservations';
 import AOS from 'aos';
 import About from './components/About';
 import Testimonial from './components/Testimonial/Testimonial';
+import OurLocation from './components/OurLocation/OurLocation';
+import Contact from './components/Contact/Contact';
+import Footer from './components/Footer/Footer';
 import 'aos/dist/aos.css';
 
 const App = () => {
@@ -44,6 +47,9 @@ React.useEffect(() => {
     <Services theme={theme} />
     <Reservations theme={theme} />
     <Testimonial theme={theme} />
+    <OurLocation theme={theme} />
+    <Contact theme={theme} />
+    <Footer theme={theme} />
     </div>
   )
 }
