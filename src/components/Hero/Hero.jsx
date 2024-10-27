@@ -13,7 +13,7 @@ const Hero = ({theme}) => {
     <div className='dark:bg-black dark:text-white
     duration-300 relative -z-20'>
         <div className='container 
-        min-h-[620px] flex p-4 md:p-0'>
+        min-h-[620px] flex p-8 md:p-0'>
 
             {/*Hero Image*/}
 

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
 import { FiMenu, FiX } from 'react-icons/fi';
+import logo from '../../assets/liliana-icon.png';
 
 const NavLinks = [
     {
         id: 1,
         name: "Inicio",
-        link: "/#inicio",
+        link: "/#home",
     },
     {
         id: 2,
@@ -31,10 +32,13 @@ const Navbar = ({ theme, setTheme }) => {
         <nav className="shadow-sm bg-primary dark:bg-dark dark:text-white duration-300">
             <div className="container md:py-0 px-4">
                 <div className="flex justify-between items-center py-4">
-                    {/* Logo */}
-                    <h1 className="text-3xl font-bold font-serif">
-                        Liliana's Salon
-                    </h1>
+                    {/* Logo and Brand Name */}
+                    <div className="flex items-center space-x-3">
+                        <img src={logo} alt="Liliana's Salon Logo" className="h-10 w-10 rounded-full" />
+                        <h1 className="text-3xl font-bold font-serif">
+                            Liliana's Salon
+                        </h1>
+                    </div>
 
                     {/* Desktop Links */}
                     <div className="hidden md:flex items-center gap-8">

@@ -29,7 +29,7 @@ const Reservations = () => {
     <>
     <span id="reservations"></span>
     <div className="pb-24 dark:bg-dark dark:text-white">
-      <div className="container">
+      <div className="container p-4 md:p-0">
         {/* Heading */}
         <h1
           data-aos="fade-up"
@@ -50,7 +50,7 @@ const Reservations = () => {
               data-aos-delay={service.aosDelay}
               className="space-y-3 border-2 border-gray-300 hover:border-primary p-3 rounded-xl relative group"
             >
-              <div className="w-full h-[120px]">
+              <div className="w-full h-[150px]">
                 <img
                   src={service.image}
                   alt={service.name}

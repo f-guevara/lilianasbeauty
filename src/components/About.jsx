@@ -5,7 +5,7 @@ const About = () => {
   return (
     <>
     <span id="about"></span>
-    <div className="dark:bg-dark dark:text-white bg-slate-100 sm:min-h-[600px] sm:grid sm:place-items-center duration-300">
+    <div className="p-4 md:p-0 dark:bg-dark dark:text-white bg-slate-100 sm:min-h-[600px] sm:grid sm:place-items-center duration-300">
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 place-items-center">
           <div data-aos="slide-right" data-aos-duration="1500">
