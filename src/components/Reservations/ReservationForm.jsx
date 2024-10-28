@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import DateSelector from './DateSelector';
 import { supabase } from '../../supabaseClient';
 
-
 const ReservationForm = () => {
   const { serviceCode } = useParams();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -15,6 +14,7 @@ const ReservationForm = () => {
     phone: '',
     email: ''
   });
+  const [clientExists, setClientExists] = useState(null); // State to track if client exists
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -28,15 +28,17 @@ const ReservationForm = () => {
     });
   };
 
-  const handleClientIdChange = async (e) => {
-    const id = e.target.value;
-    setClientId(id);
+  const handleClientIdChange = (e) => {
+    setClientId(e.target.value);
+    setClientExists(null); // Reset client existence status when changing ID
+  };
 
-    if (id) {
+  const handleClientSearch = async () => {
+    if (clientId) {
       const { data: clientData, error } = await supabase
         .from('clients')
         .select('first_name, last_name, phone, email')
-        .eq('id', id)
+        .eq('id', clientId)
         .single();
 
       if (clientData) {
@@ -46,9 +48,11 @@ const ReservationForm = () => {
           phone: clientData.phone || '',
           email: clientData.email || ''
         });
-      } else if (error) {
+        setClientExists(true);
+      } else {
         console.error('Client not found:', error);
         alert('Client ID not found. Please enter your information.');
+        setClientExists(false);
       }
     }
   };
@@ -93,7 +97,7 @@ const ReservationForm = () => {
       return;
     }
   
-    // Step 3: Check availability of staff in priority order
+    // Step 3: Check availability of staff in priority order without UTC adjustments
     let assignedStaffId = null;
   
     for (const priority of priorities) {
@@ -101,8 +105,8 @@ const ReservationForm = () => {
         .from('appointments')
         .select('id')
         .eq('staff_id', priority.staff_id)
-        .eq('date', selectedDate.toISOString().split('T')[0])
-        .eq('start_time', selectedTime);
+        .eq('date', selectedDate.toISOString().split('T')[0]) // Check same date
+        .eq('start_time', selectedTime); // Check same El Salvador time
   
       if (availabilityError) {
         console.error('Error checking staff availability:', availabilityError);
@@ -122,7 +126,12 @@ const ReservationForm = () => {
       return;
     }
   
-    // Step 4: Insert appointment with assigned staff member
+    // Step 4: Set the times directly as El Salvador time
+    const [hours, minutes] = selectedTime.split(':');
+    const startTime = `${hours}:${minutes}:00`; // HH:MM:SS in El Salvador time
+    const endTime = `${String(Number(hours) + 1).padStart(2, '0')}:${minutes}:00`; // End time 1 hour later
+  
+    // Step 5: Insert appointment with times in El Salvador time
     const { error: appointmentError } = await supabase
       .from('appointments')
       .insert([
@@ -130,9 +139,9 @@ const ReservationForm = () => {
           service_id: serviceCode,
           client_id: clientIdToUse,
           staff_id: assignedStaffId,
-          date: selectedDate.toISOString().split('T')[0],
-          start_time: selectedTime,
-          end_time: new Date(new Date(`1970-01-01T${selectedTime}`).getTime() + 60 * 60000).toTimeString().split(' ')[0]
+          date: selectedDate.toISOString().split('T')[0], // Date without timezone adjustment
+          start_time: startTime,
+          end_time: endTime
         }
       ]);
   
@@ -153,8 +162,8 @@ const ReservationForm = () => {
     <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-md space-y-4">
       <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Reservar una cita</h2>
 
-      {/* Client ID */}
-      <div>
+      {/* Client ID with Search Button */}
+      <div className="flex items-center space-x-2">
         <label className="block text-sm font-medium text-gray-700 dark:text-white">Client ID (optional)</label>
         <input
           type="text"
@@ -163,91 +172,100 @@ const ReservationForm = () => {
           className="mt-1 block w-full p-2 border rounded-md"
           placeholder="Enter your Client ID if you know it"
         />
-      </div>
-
-      {/* Date Selector */}
-      <DateSelector selectedDate={selectedDate} onDateChange={handleDateChange} />
-
-      {/* Time Selector */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">Select a Time</label>
-        <select
-          value={selectedTime}
-          onChange={(e) => setSelectedTime(e.target.value)}
-          required
-          className="mt-1 block w-full p-2 border rounded-md"
+        <button
+          type="button"
+          onClick={handleClientSearch}
+          className="btn bg-primary text-white font-semibold py-1 px-3 rounded-md hover:bg-primary-dark transition duration-200"
         >
-          <option value="" disabled>Select a time</option>
-          <option value="09:00:00">09:00 AM</option>
-          <option value="10:00:00">10:00 AM</option>
-          <option value="11:00:00">11:00 AM</option>
-          <option value="12:00:00">12:00 PM</option>
-          <option value="13:00:00">01:00 PM</option>
-          <option value="14:00:00">02:00 PM</option>
-          <option value="15:00:00">03:00 PM</option>
-          <option value="16:00:00">04:00 PM</option>
-        </select>
+          Search
+        </button>
       </div>
 
-      {/* First Name */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">First Name</label>
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleInputChange}
-          required
-          className="mt-1 block w-full p-2 border rounded-md"
-          placeholder="First Name"
-        />
-      </div>
+       {/* Date Selector */}
+       <DateSelector selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      {/* Last Name */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">Last Name</label>
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleInputChange}
-          required
-          className="mt-1 block w-full p-2 border rounded-md"
-          placeholder="Last Name"
-        />
-      </div>
+{/* Time Selector */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 dark:text-white">Select a Time</label>
+  <select
+    value={selectedTime}
+    onChange={(e) => setSelectedTime(e.target.value)}
+    required
+    className="mt-1 block w-full p-2 border rounded-md"
+  >
+    <option value="" disabled>Select a time</option>
+    <option value="09:00:00">09:00 AM</option>
+    <option value="10:00:00">10:00 AM</option>
+    <option value="11:00:00">11:00 AM</option>
+    <option value="12:00:00">12:00 PM</option>
+    <option value="13:00:00">01:00 PM</option>
+    <option value="14:00:00">02:00 PM</option>
+    <option value="15:00:00">03:00 PM</option>
+    <option value="16:00:00">04:00 PM</option>
+  </select>
+</div>
 
-      {/* Phone (Optional) */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">Phone (optional)</label>
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          className="mt-1 block w-full p-2 border rounded-md"
-          placeholder="Phone Number"
-        />
-      </div>
+{/* First Name */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 dark:text-white">First Name</label>
+  <input
+    type="text"
+    name="firstName"
+    value={formData.firstName}
+    onChange={handleInputChange}
+    required
+    className="mt-1 block w-full p-2 border rounded-md"
+    placeholder="First Name"
+  />
+</div>
 
-      {/* Email (Optional) */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">Email (optional)</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          className="mt-1 block w-full p-2 border rounded-md"
-          placeholder="Email"
-        />
-      </div>
+{/* Last Name */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 dark:text-white">Last Name</label>
+  <input
+    type="text"
+    name="lastName"
+    value={formData.lastName}
+    onChange={handleInputChange}
+    required
+    className="mt-1 block w-full p-2 border rounded-md"
+    placeholder="Last Name"
+  />
+</div>
 
-      <button type="submit" className="w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-primary-dark transition duration-200">
-        Reservar
-      </button>
-    </form>
-  );
+{/* Phone (Optional) */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 dark:text-white">Phone (optional)</label>
+  <input
+    type="tel"
+    name="phone"
+    value={formData.phone}
+    onChange={handleInputChange}
+    className="mt-1 block w-full p-2 border rounded-md"
+    placeholder="Phone Number"
+  />
+</div>
+
+{/* Email (Optional) */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 dark:text-white">Email (optional)</label>
+  <input
+    type="email"
+    name="email"
+    value={formData.email}
+    onChange={handleInputChange}
+    className="mt-1 block w-full p-2 border rounded-md"
+    placeholder="Email"
+  />
+</div>
+
+<button type="submit" className="w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-primary-dark transition duration-200">
+  Reservar
+</button>
+</form>
+);
 };
 
 export default ReservationForm;
+
+

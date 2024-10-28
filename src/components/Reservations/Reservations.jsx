@@ -4,28 +4,28 @@ import haircutWoman from "../../assets/haircut.png";
 
 const serviceList = [
   {
-    name: "Corte de cabello para mujer",
+    name: "Pedicure",
     image: haircutWoman,
     aosDelay: "0",
     code: 1, // Service code for referencing in the database
   },
   {
-    name: "Corte de cabello para hombre",
+    name: "Corte de cabello para mujer",
     image: haircutWoman,
     aosDelay: "500",
     code: 2, // Service code
   },
   {
-    name: "Limpieza facial",
+    name: "Corte de cabello para hombre",
     image: haircutWoman,
     aosDelay: "1000",
-    code: 4, // Service code
+    code: 3, // Service code
   },
   {
-    name: "Pedicura",
+    name: "Limpieza facial",
     image: haircutWoman,
     aosDelay: "1500",
-    code: 3, // Service code
+    code: 4, // Service code
   },
 ];
 
