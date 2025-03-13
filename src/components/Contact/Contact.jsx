@@ -12,20 +12,20 @@ const Contact = () => {
                 Haz tu cita ya
               </h1>
               <p className="text-gray-400">
-                Al hacer tu cita con Liliana Arriola, garantizas una atención
+                Al hacer tu cita con Liliana, garantizas una atención
                 puntual y ahorras tiempo. Contamos con dos medios para contactarnos:
                 llamada directa y WhatsApp. ¡Tú eliges!
               </p>
               <p className="text-gray-400">
-                Llámanos al <strong>2273-3177</strong> <br />
+                Llámanos al <strong>555-55555</strong> <br />
                 o <br />
-                Escríbenos por WhatsApp al <strong>+503 7656-2398</strong>
+                Escríbenos por WhatsApp al <strong>+XXX 555-555-55</strong>
               </p>
             </div>
             <div className="sm:grid sm:place-items-center">
               
               <a
-                href="https://wa.me/50376562398"
+                href="https://wa.me/55555555555"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block font-semibold py-2 px-6 bg-green-500 text-white hover:bg-green-400 duration-200 tracking-widest uppercase rounded-lg"

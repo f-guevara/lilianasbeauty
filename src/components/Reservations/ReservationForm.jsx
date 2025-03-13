@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DateSelector from './DateSelector';
-import { supabase } from '../../supabaseClient';
+//import { supabase } from '../../supabaseClient';
 
 const ReservationForm = () => {
   const { serviceCode } = useParams();

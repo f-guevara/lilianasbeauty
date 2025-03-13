@@ -24,17 +24,10 @@ const About = () => {
                 Nuestra Historia
               </h1>
               <p data-aos="fade-up" className="leading-8 tracking-wide">
-                Liliana Arriola, la fundadora, comenzó en 2017 ofreciendo
-                servicios de manicura y pedicura clínica. Gracias a la creciente
-                demanda, decidió alquilar un espacio más amplio y modernizar el
-                salón por completo.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
               </p>
               <p data-aos="fade-up" className="leading-8 tracking-wide">
-                Con una visión de ofrecer lo mejor a sus clientes, equipó su
-                negocio con las últimas tecnologías y tendencias en el mercado
-                de la belleza, brindando un ambiente cómodo y sofisticado para
-                cada visitante.
-              </p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
             </div>
           </div>
         </div>
