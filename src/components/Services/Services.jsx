@@ -10,7 +10,7 @@ const skillsData = [
       <FaStar className="text-5xl text-primary group-hover:text-black duration-300" />
     ),
     description:
-      "Liliana Arriola, la propietaria, cuenta con más de 10 años de experiencia en el sector, brindando servicios personalizados y de alta calidad a cada cliente.",
+      "Liliana cuenta con más de 10 años de experiencia en el sector, brindando servicios personalizados y de alta calidad a cada cliente.",
     aosDelay: "0",
   },
   {
